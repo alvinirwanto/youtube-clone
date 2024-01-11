@@ -20,57 +20,28 @@ const Feed = () => {
     return (
         <div className='grid grid-cols-[1fr_7fr]'>
 
-            <Box
-                sx={{
-                    height: {
-                        sx: 'auto', md: '92vh'
-                    },
-                    px: {
-                        sx: 0, md: 2
-                    }
-                }}
-            >
-
+            <div className='h-auto md:h-[92vh] px-4'>
                 <SideBar
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
                 />
 
-                <Typography
-                    className='copyright'
-                    variant='body2'
-                    sx={{
-                        mt: 1.5,
-                        color: '#fff'
-                    }}
-                >
-                    Copyright 2022 Alvin Media
-                </Typography>
+                <div className='text-white text-sm' >
+                    Copyright {new Date().getFullYear()} Alvin Media
+                </div>
 
-            </Box>
+            </div>
 
-            <Box p={2} sx={{
-                overflowY: 'auto',
-                height: '90vh',
-                flex: 2
-            }}>
-                <Typography
-                    variant='h4'
-                    fontWeight="bold"
-                    mb={2}
-                    sx={{
-                        color: 'white'
-                    }}
-                >
-                    {selectedCategory}
-                    <span style={{ color: '#F31503' }}> Videos</span>
-                </Typography>
-
+            <div className='overflow-auto p-6 h-[90vh]'>
+                <div className='font-bold text-2xl flex items-center gap-2 mb-6'>
+                    <span className='text-white'>{selectedCategory}</span>
+                    <span className='text-[#F31503]'> Videos</span>
+                </div>
 
                 <Videos
                     videos={videos}
                 />
-            </Box>
+            </div>
 
         </div>
     )
