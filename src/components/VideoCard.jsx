@@ -1,43 +1,42 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, Card, CardContent, CardMedia } from '@mui/material';
-import { CheckCircle } from '@mui/icons-material';
 
-import { demoThumbnailUrl, demoVideoUrl, demoVideoTitle, demoChannelUrl, demoChannelTitle } from '../utils/constants';
+import { demoVideoUrl, demoVideoTitle, demoChannelUrl, demoChannelTitle } from '../utils/constants';
+import daysCount from '../utils/DaysCount';
 
 const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems:'center' }}>
-            <Card sx={{ width: { xs: '100%', sm: '320px', md: '320px' }, boxShadow: 'none', borderRadius: 0 }}>
+        <div className='flex justify-center items-center'>
+            <div className='w-full rounded-xl hover:rounded-none overflow-clip duration-300 flex flex-col gap-3'>
                 <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>
-                    <CardMedia
-                        image={snippet?.thumbnails?.high?.url}
+                    <img
+                        src={snippet?.thumbnails?.high?.url}
                         alt={snippet?.title}
-                        sx={{ width: { xs: '100%', sm: '358px', md: '320px' }, height: 180 }}
+                        className='w-full h-[13rem] object-cover'
                     />
                 </Link>
-                <CardContent
-                    sx={{ backgroundColor: '#1e1e1e', height: '106px' }}
-                >
+                <div className='h-[7rem] flex flex-col'>
                     <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>
-                        <Typography variant='subtitle1' fontWeight='bold' color='#FFF'>
+                        <span className='font-semibold text-white'>
                             {snippet?.title.slice(0, 60) || demoVideoTitle.slice(0, 60)}
-                        </Typography>
+                        </span>
                     </Link>
 
                     <Link to={snippet?.channelId ? `/channel/${snippet?.channelId}` : demoChannelUrl}>
-                        <Typography variant='subtitle2' fontWeight='bold' color='gray'>
+                        <span className='text-gray-400 text-sm'>
                             {snippet?.channelTitle || demoChannelTitle}
-                            <CheckCircle
+                            {/* <CheckCircle
                                 sx={{
                                     fontSize: 12, color: 'gray', ml: '5px'
                                 }}
-                            />
-                        </Typography>
+                            /> */}
+                        </span>
                     </Link>
-                </CardContent>
-            </Card>
+
+                    <span className='text-gray-400 text-sm'>{daysCount(snippet?.publishedAt)}</span>
+                </div>
+            </div>
         </div>
     )
 }
