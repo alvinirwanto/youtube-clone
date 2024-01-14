@@ -13,13 +13,31 @@ const VideoDetail = () => {
 
     const [videoDetail, setVideoDetail] = useState(null)
     const [videos, setVideos] = useState(null)
+    const [profilePictureUrl, setProfilePictureUrl] = useState(null);
+    const [subscriberCount, setSubscriberCount] = useState(null);
+
+    console.log(subscriberCount)
 
     //To get the id of video
     const { id } = useParams();
 
     useEffect(() => {
         fetchFromAPI(`videos?part=snippet,statistics&id=${id}`)
-            .then((data) => setVideoDetail(data.items[0]))
+            .then((data) => {
+                setVideoDetail(data.items[0])
+
+                // Extract channel ID from video data
+                const channelId = data?.items[0]?.snippet?.channelId;
+
+                // Fetch channel data
+                return fetchFromAPI(`channels?part=snippet&id=${channelId}`);
+            }).then(data => {
+                // Extract and save profile picture URL in state
+                const url = data?.items[0]?.snippet?.thumbnails?.default?.url;
+                const subs = data?.items[0]?.statistics?.subscriberCount
+                setProfilePictureUrl(url);
+                setSubscriberCount(subs);
+            })
 
         fetchFromAPI(`search?part=snippet&relatedToVideoId=${id}&type=video`)
             .then((data) => setVideos(data.items))
@@ -42,19 +60,16 @@ const VideoDetail = () => {
                         </span>
                     </div>
 
-                    <Link to={`/channel/${channelId}`}>
-                        <Typography variant={{ sm: 'subtitle1', md: 'h6' }} color="#fff">
+                    <Link to={`/channel/${channelId}`} className='flex gap-2 items-center'>
+                        <img src={profilePictureUrl} alt="profile" className='h-[3rem] w-[3rem] rounded-full' />
+                        <span className='text-white text-lg font-semibold'>
                             {channelTitle}
-                            <CheckCircle sx={{
-                                fontSize: '12px',
-                                color: 'gray',
-                                ml: '5px'
-                            }} />
-                        </Typography>
+                        </span>
                     </Link>
+                    <span>{subscriberCount}</span>
 
                     <div>
-                    <span >
+                        <span >
                             {daysCount(publishedAt)}
                         </span>
                         <span>

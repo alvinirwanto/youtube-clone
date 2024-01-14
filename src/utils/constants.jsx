@@ -4,7 +4,7 @@ export const logo = 'https://i.ibb.co/s9Qys2j/logo.png';
 
 export const categories = [
     { name: 'New', icon: <LuCode2 className='text-xl' />, },
-    { name: 'JS Mastery', icon: <LuCode2 className='text-xl' />, },
+    { name: 'Alvin Irwanto', icon: <LuCode2 className='text-xl' />, },
     { name: 'Coding', icon: <LuCode2 className='text-xl' />, },
     { name: 'ReactJS', icon: <LuCode2 className='text-xl' />, },
     { name: 'NextJS', icon: <LuCode2 className='text-xl' />, },
