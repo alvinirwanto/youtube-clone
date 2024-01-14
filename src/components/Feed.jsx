@@ -27,7 +27,7 @@ const Feed = () => {
                 />
 
                 <div className='text-white text-sm' >
-                    Copyright {new Date().getFullYear()} Alvin Media
+                © {new Date().getFullYear()} Alvin Media
                 </div>
 
             </div>
