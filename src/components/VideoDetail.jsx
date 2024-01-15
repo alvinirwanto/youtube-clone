@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ReactPlayer from 'react-player'
-import { Typography, Box, Stack } from '@mui/material';
-import { CheckCircle } from '@mui/icons-material';
+import { AiOutlineLike } from "react-icons/ai";
 
 import daysCount from '../utils/DaysCount'
 
 import { Videos } from './'
 import { fetchFromAPI } from '../utils/fetchFromAPI';
+import formatNumber from '../utils/FormatNumber'
 
 const VideoDetail = () => {
 
@@ -15,8 +15,6 @@ const VideoDetail = () => {
     const [videos, setVideos] = useState(null)
     const [profilePictureUrl, setProfilePictureUrl] = useState(null);
     const [subscriberCount, setSubscriberCount] = useState(null);
-
-    console.log(subscriberCount)
 
     //To get the id of video
     const { id } = useParams();
@@ -50,7 +48,7 @@ const VideoDetail = () => {
 
     return (
         <div className='h-full overflow-auto'>
-            <div className='w-full !h-full text-white px-20 grid grid-cols-[3fr_1fr] gap-10'>
+            <div className='w-full !h-full text-white px-28 grid grid-cols-[3fr_1fr] gap-6'>
                 <div className='flex flex-col gap-4'>
                     <ReactPlayer url={`https://youtube.com/watch?v=${id}`}
                         className='!h-[70vh] !w-full rounded-xl overflow-clip' controls />
@@ -60,35 +58,43 @@ const VideoDetail = () => {
                         </span>
                     </div>
 
-                    <Link to={`/channel/${channelId}`} className='flex gap-2 items-center'>
-                        <img src={profilePictureUrl} alt="profile" className='h-[3rem] w-[3rem] rounded-full' />
-                        <span className='text-white text-lg font-semibold'>
-                            {channelTitle}
-                        </span>
-                    </Link>
-                    <span>{subscriberCount}</span>
+                    <div className='flex justify-between'>
+                        <Link to={`/channel/${channelId}`} className='flex gap-2 items-center'>
+                            <img src={profilePictureUrl} alt="profile" className='h-[2rem] w-[2rem] rounded-full' />
+                            <div className='flex flex-col'>
+                                <span className='text-white text-sm font-semibold'>{channelTitle}</span>
+                                <span className='text-white text-xs font-light'>{formatNumber(subscriberCount)} Subcribers</span>
+                            </div>
+                        </Link>
 
-                    <div>
-                        <span >
-                            {daysCount(publishedAt)}
-                        </span>
+                        <div className='flex justify-center items-center px-4 py-1 bg-bg-grey-2 rounded-full gap-1'>
+                            <AiOutlineLike className='text-xl' />
+                            <span>
+                                {formatNumber(likeCount)}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className='flex flex-col p-4 bg-bg-grey-2 rounded-xl gap-2 text-sm'>
+                        <div className='flex items-center gap-2 font-semibold text-sm'>
+                            <span>
+                                {formatNumber(viewCount)} views
+                            </span>
+                            <span >
+                                {daysCount(publishedAt)}
+                            </span>
+                        </div>
+                        <div>{tags.map((tag, i) => (
+                            <span key={i} className='pr-1 text-link-blue'>#{tag}</span>
+                        ))}</div>
                         <span>
                             {description}
                         </span>
-                        <span>{tags}</span>
-
-                        <span>
-                            {parseInt(viewCount).toLocaleString()} views
-                        </span>
-
-                        <span>
-                            {parseInt(likeCount).toLocaleString()} likes
-                        </span>
-
-                        <span>
-                            {parseInt(commentCount).toLocaleString()} likes
-                        </span>
                     </div>
+
+                    <span className='text-xl font-bold'>
+                        {commentCount} Comments
+                    </span>
                 </div>
 
                 <Videos videos={videos} direction='column' />

@@ -40,6 +40,7 @@ const Feed = () => {
 
                 <Videos
                     videos={videos}
+                    direction={'row'}
                 />
             </div>
 
