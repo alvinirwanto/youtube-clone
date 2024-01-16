@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ReactPlayer from 'react-player'
 import { AiOutlineLike } from "react-icons/ai";
+import Markdown from 'marked-react'
+import remarkGfm from 'remark-gfm'
 
 import daysCount from '../utils/DaysCount'
 
@@ -15,6 +17,8 @@ const VideoDetail = () => {
     const [videos, setVideos] = useState(null)
     const [profilePictureUrl, setProfilePictureUrl] = useState(null);
     const [subscriberCount, setSubscriberCount] = useState(null);
+
+    console.log(videoDetail)
 
     //To get the id of video
     const { id } = useParams();
@@ -45,10 +49,11 @@ const VideoDetail = () => {
 
 
     const { snippet: { title, channelId, channelTitle, publishedAt, description, tags, }, statistics: { viewCount, likeCount, commentCount } } = videoDetail;
+    const formattedData = description?.replace(/\n/g, '  \n');
 
     return (
-        <div className='h-full overflow-auto'>
-            <div className='w-full !h-full text-white px-28 grid grid-cols-[3fr_1fr] gap-6'>
+        <div className='h-screen w-full overflow-hidden'>
+            <div className='w-full h-screen overflow-auto text-white px-28 grid grid-cols-[3fr_1fr] gap-6'>
                 <div className='flex flex-col gap-4'>
                     <ReactPlayer url={`https://youtube.com/watch?v=${id}`}
                         className='!h-[70vh] !w-full rounded-xl overflow-clip' controls />
@@ -87,9 +92,9 @@ const VideoDetail = () => {
                         <div>{tags.map((tag, i) => (
                             <span key={i} className='pr-1 text-link-blue'>#{tag}</span>
                         ))}</div>
-                        <span>
-                            {description}
-                        </span>
+                        <Markdown>
+                            {formattedData}
+                        </Markdown>
                     </div>
 
                     <span className='text-xl font-bold'>
