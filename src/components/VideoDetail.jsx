@@ -52,59 +52,57 @@ const VideoDetail = () => {
     const formattedData = description?.replace(/\n/g, '  \n');
 
     return (
-        <div className='h-screen w-full overflow-hidden'>
-            <div className='w-full h-screen overflow-auto text-white px-28 grid grid-cols-[3fr_1fr] gap-6'>
+        <div className='w-full text-white px-28 grid grid-cols-[3fr_1fr] gap-6'>
+            <div className='flex flex-col gap-4'>
+                <ReactPlayer url={`https://youtube.com/watch?v=${id}`}
+                    className='!h-[70vh] !w-full rounded-xl overflow-clip' controls />
                 <div className='flex flex-col gap-4'>
-                    <ReactPlayer url={`https://youtube.com/watch?v=${id}`}
-                        className='!h-[70vh] !w-full rounded-xl overflow-clip' controls />
-                    <div className='flex flex-col gap-4'>
-                        <span className='text-xl font-bold' >
-                            {title}
-                        </span>
-                    </div>
-
-                    <div className='flex justify-between'>
-                        <Link to={`/channel/${channelId}`} className='flex gap-2 items-center'>
-                            <img src={profilePictureUrl} alt="profile" className='h-[2rem] w-[2rem] rounded-full' />
-                            <div className='flex flex-col'>
-                                <span className='text-white text-sm font-semibold'>{channelTitle}</span>
-                                <span className='text-white text-xs font-light'>{formatNumber(subscriberCount)} Subcribers</span>
-                            </div>
-                        </Link>
-
-                        <div className='flex justify-center items-center px-4 py-1 bg-bg-grey-2 rounded-full gap-1'>
-                            <AiOutlineLike className='text-xl' />
-                            <span>
-                                {formatNumber(likeCount)}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className='flex flex-col p-4 bg-bg-grey-2 rounded-xl gap-2 text-sm'>
-                        <div className='flex items-center gap-2 font-semibold text-sm'>
-                            <span>
-                                {formatNumber(viewCount)} views
-                            </span>
-                            <span >
-                                {daysCount(publishedAt)}
-                            </span>
-                        </div>
-                        <div>{tags.map((tag, i) => (
-                            <span key={i} className='pr-1 text-link-blue'>#{tag}</span>
-                        ))}</div>
-                        <Markdown>
-                            {formattedData}
-                        </Markdown>
-                    </div>
-
-                    <span className='text-xl font-bold'>
-                        {commentCount} Comments
+                    <span className='text-xl font-bold' >
+                        {title}
                     </span>
                 </div>
 
-                <Videos videos={videos} direction='column' />
+                <div className='flex justify-between'>
+                    <Link to={`/channel/${channelId}`} className='flex gap-2 items-center'>
+                        <img src={profilePictureUrl} alt="profile" className='h-[2rem] w-[2rem] rounded-full' />
+                        <div className='flex flex-col'>
+                            <span className='text-white text-sm font-semibold'>{channelTitle}</span>
+                            <span className='text-white text-xs font-light'>{formatNumber(subscriberCount)} Subcribers</span>
+                        </div>
+                    </Link>
 
+                    <div className='flex justify-center items-center px-4 py-1 bg-bg-grey-2 rounded-full gap-1'>
+                        <AiOutlineLike className='text-xl' />
+                        <span>
+                            {formatNumber(likeCount)}
+                        </span>
+                    </div>
+                </div>
+
+                <div className='flex flex-col p-4 bg-bg-grey-2 rounded-xl gap-2 text-sm'>
+                    <div className='flex items-center gap-2 font-semibold text-sm'>
+                        <span>
+                            {formatNumber(viewCount)} views
+                        </span>
+                        <span >
+                            {daysCount(publishedAt)}
+                        </span>
+                    </div>
+                    <div>{tags.map((tag, i) => (
+                        <span key={i} className='pr-1 text-link-blue'>#{tag}</span>
+                    ))}</div>
+                    <Markdown>
+                        {formattedData}
+                    </Markdown>
+                </div>
+
+                <span className='text-xl font-bold'>
+                    {commentCount} Comments
+                </span>
             </div>
+
+            <Videos videos={videos} direction='column' />
+
         </div>
     )
 }
